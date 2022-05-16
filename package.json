@@ -1,0 +1,26 @@
+{
+  "name": "documatic",
+  "version": "1.0.0",
+  "description": "bingo bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lightninbolt986/documatic-solo-hackathon.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lightninbolt986/documatic-solo-hackathon/issues"
+  },
+  "homepage": "https://github.com/Lightninbolt986/documatic-solo-hackathon#readme",
+  "dependencies": {
+    "canvas": "^2.9.1",
+    "discord.js": "^13.7.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.1"
+  }
+}

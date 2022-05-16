@@ -1,0 +1,22 @@
+{
+  "blue": {
+    "name": "Blue",
+    "url": "https://media.discordapp.net/attachments/815891006255923212/975241914636959774/blue2.jpg?width=518&height=547"
+  },
+  "lightblue": {
+    "name": "Light blue",
+    "url": "https://media.discordapp.net/attachments/815891006255923212/975241913642909736/lightblue2.jpg?width=518&height=547"
+  },
+  "red": {
+    "name": "Red",
+    "url": "https://media.discordapp.net/attachments/815891006255923212/975241913865232464/red2.jpg?width=518&height=547"
+  },
+  "redorange": {
+    "name": "Red-orange",
+    "url": "https://media.discordapp.net/attachments/815891006255923212/975241914154643506/redorange2.jpg?width=518&height=547"
+  },
+  "yellow": {
+    "name": "Yellow",
+    "url": "https://media.discordapp.net/attachments/815891006255923212/975241914427277372/yellow2.jpg?width=518&height=547"
+  }
+}
