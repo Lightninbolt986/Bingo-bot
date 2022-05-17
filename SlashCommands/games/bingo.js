@@ -297,7 +297,7 @@ module.exports = {
               );
               if (currentBingos < bingos)
                 return i.reply({
-                  content: `You have ${currentBingos}, you need ${bingos} to win!`,
+                  content: `You have ${currentBingos} bingos, you need ${bingos} to win!`,
                   ephemeral: true,
                 });
               //user wins
