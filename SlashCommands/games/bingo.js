@@ -34,7 +34,12 @@ const {
   MessageButton,
   Collection,
 } = require("discord.js");
-const { getNumbers, getBingos } = require("../../functions");
+const {
+  getNumbers,
+  getBingos,
+  arrayEquals,
+  formatArray,
+} = require("../../functions");
 const games = new Collection();
 const row2 = new MessageActionRow().addComponents(
   new MessageButton()
@@ -45,6 +50,16 @@ const row2 = new MessageActionRow().addComponents(
     .setLabel("BINGO!")
     .setStyle("SUCCESS")
     .setCustomId("bingo")
+);
+const row3 = new MessageActionRow().addComponents(
+  new MessageButton()
+    .setLabel("End the game")
+    .setStyle("DANGER")
+    .setCustomId("end"),
+  new MessageButton()
+    .setLabel("Cancel the game")
+    .setStyle("DANGER")
+    .setCustomId("cancel")
 );
 module.exports = {
   name: "bingo",
@@ -114,6 +129,7 @@ module.exports = {
     games.get(interaction.channel.id).set("players", new Collection());
     games.get(interaction.channel.id).set("nums", getNumbers(75, 75));
     games.get(interaction.channel.id).set("numsCalled", []);
+    games.get(interaction.channel.id).set("host", interaction.user.id);
     const board = interaction.options.getString("gameboard") || "red";
     const interval = interaction.options.getInteger("interval") || 15;
     const bingos = interaction.options.getInteger("bingos") || 3;
@@ -123,6 +139,29 @@ module.exports = {
           .setTitle("BINGO!")
           .setDescription(
             "Click the button below to join the game and get a ticket."
+          )
+          .setColor(gameBoards[board].hex)
+          .addFields(
+            {
+              name: "Card rules",
+              value:
+                "The card consists of 5 columns, each represented by a letter of the word BINGO. The B column has 5 cells, each with a random number from 1-15, I column with random numbers from 16-30 and so on. The only exception is N column with 5 cells, however only 4 remaining empty ones as the middle is a free space. Same number cant appear in a ticket twice.",
+            },
+            {
+              name: "Getting a BINGO",
+              value:
+                "You get a BINGO when you cross out all the numbers in a row, column or diagnol. The center peice (free space) is considered as a crossed out space. Once you get required number of bingos, you can press the bingo button to win the game.",
+            },
+            {
+              name: "Number calling and crossing out",
+              value:
+                "Once the game starts, numbers are randomly called out after the pre-specified interval. If the number is in your ticket, You can cross it out by clicking the respective button. You can get your latest card by pressing th corresponding button. ",
+            },
+            {
+              name: "Timeout",
+              value:
+                "The button expires 30 seconds after being sent. Thirty seconds after the fifth turn after the number is called, it can no longer be crossed off. This means that you need to be active throughout the game to maximize your chances of winning.",
+            }
           )
           .setFooter({ text: "Starts in 60 seconds" })
           .setImage(
@@ -164,7 +203,7 @@ module.exports = {
           useGrouping: false,
         })
       );
-      if(gameBoards[board].dark) ctx.fillStyle = 'white'
+      if (gameBoards[board].dark) ctx.fillStyle = "white";
       ctx.fillText(nums[0], 77, 180);
       ctx.fillText(nums[1], 77, 260);
       ctx.fillText(nums[2], 77, 340);
@@ -213,6 +252,7 @@ module.exports = {
         embeds: [
           new MessageEmbed()
             .setTitle("BINGO!")
+            .setColor(gameBoards[board].hex)
             .setDescription(
               `${ppl} ${
                 ppl === 1 ? "person" : "people"
@@ -257,12 +297,13 @@ module.exports = {
             embeds: [
               new MessageEmbed()
                 .setTitle("Bingo number drawn!")
+                .setColor(gameBoards[board].hex)
                 .setDescription(`${number} was drawn!`)
                 .setFooter({
                   text: `Next number will be drawn in ${interval} seconds`,
                 }),
             ],
-            components: [component, row2],
+            components: [component, row2, row3],
             fetchReply: true,
           });
           const filter = function (i) {
@@ -307,6 +348,7 @@ module.exports = {
               return interaction.followUp({
                 embeds: [
                   new MessageEmbed()
+                    .setColor(gameBoards[board].hex)
                     .setTitle("Bingo game ended!")
                     .setDescription(
                       `Bingo game has ended and <@${i.user.id}> has won the game! Thank you for playing.`
@@ -315,6 +357,136 @@ module.exports = {
                       "https://media.discordapp.net/attachments/815891006255923212/975621627997986887/bingo.jpeg?width=257&height=129"
                     ),
                 ],
+              });
+            }
+            if (i.customId == "end") {
+              let row = [
+                {
+                  type: 1,
+                  components: [
+                    {
+                      type: 2,
+                      style: "PRIMARY",
+                      custom_id: "Y",
+                      label: "Yes",
+                    },
+                    {
+                      type: 2,
+                      style: "DANGER",
+                      custom_id: "N",
+                      label: "No",
+                    },
+                  ],
+                },
+              ];
+
+              const mssg = await i.reply({
+                content: `${i.user}, are you sure you want to end this game?`,
+                components: row,
+                fetchReply: true,
+              });
+              const colector = mssg.createMessageComponentCollector({
+                componentType: "BUTTON",
+                time: 30000,
+              });
+
+              colector.on("collect", async (ii) => {
+                if (ii.user.id === i.user.id) {
+                  if (ii.customId == "Y") {
+                    colector.stop("e");
+                    const winners = games
+                      .get(interaction.channel.id)
+                      .get("players")
+                      .sort((a, b) => getBingos(b.nums) - getBingos(a.nums));
+                    const topBingo = getBingos(winners.first().nums);
+                    const topBingoPeople = winners.filter(
+                      (e) => getBingos(e.nums) >= topBingo
+                    );
+                    let description = "";
+                    if (topBingoPeople.size === 1)
+                      description = `<@${
+                        [...topBingoPeople.keys()][0]
+                      }> had ${topBingo} bingos. As they had the highest bingos and were the only one with this many bingos, they have won!`;
+                    else {
+                      const topNums =
+                        topBingoPeople
+                          .sort(
+                            (a, b) =>
+                              b.nums.join(",").split(" ").length -
+                              a.nums.join(",").split(" ").length
+                          )
+                          .first()
+                          .nums.join(",")
+                          .split(" ").length - 1;
+
+                      const topNumsAndBingos = topBingoPeople.filter(
+                        (a) =>
+                          a.nums.join(",").split(" ").length - 1 === topNums
+                      );
+                      if (topNumsAndBingos.size === 1)
+                        description = `${formatArray(
+                          [...topBingoPeople.keys()].map((e) => `<@${e}>`)
+                        )} all had ${topBingo} bingos, but ${
+                          [...topNumsAndBingos.keys()][0]
+                        } has highest number of numbers crossed out(${topNums}), thus they are the winner.`;
+                      else {
+                        if (
+                          arrayEquals(
+                            [...topNumsAndBingos.keys()],
+                            [...topBingoPeople.keys()]
+                          )
+                        ) {
+                          description = `${formatArray(
+                            [...topNumsAndBingos.keys()].map((e) => `<@${e}>`)
+                          )} all had ${topBingo} bingos and ${topNums} numbers crossed, and thus have tied for first place.`;
+                        } else {
+                          description = `${formatArray(
+                            [...topBingoPeople.keys()].map((e) => `<@${e}>`)
+                          )} had the most number of bingos (${topBingo}) but from these ${formatArray(
+                            [...topNumsAndBingos.keys()].map((e) => `<@${e}>`)
+                          )}had largest number of numbers crossed (${topNums}) and thus these ${
+                            [...topNumsAndBingos.keys()].map((e) => `<@${e}>`)
+                              .length
+                          } have tied for first place.`;
+                        }
+                      }
+                    }
+                    return ii.reply({
+                      embeds: [
+                        new MessageEmbed()
+                          .setTitle("Bingo game has been ended!")
+                          .setColor(gameBoards[board].hex)
+                          .setDescription(
+                            description + " Thank you for playing."
+                          )
+                          .setImage(
+                            "https://media.discordapp.net/attachments/815891006255923212/975621627997986887/bingo.jpeg?width=257&height=129"
+                          ),
+                      ],
+                    });
+                  } else {
+                    colector.stop("e");
+                    return ii.reply(`${emotes.cross} Cancelled deletion`);
+                  }
+                } else {
+                  return ii.reply({
+                    content: `${emotes.cross} These buttons aren't for you!`,
+                    ephemeral: true,
+                  });
+                }
+              });
+
+              colector.on("end", () => {
+                msg.edit({
+                  content: `${i.user}, are you sure you want to end this game?`,
+                  components: row.map((e) => {
+                    e.components = e.components.map((i) => {
+                      i.disabled = true;
+                      return i;
+                    });
+                    return e;
+                  }),
+                });
               });
             }
             const player = games

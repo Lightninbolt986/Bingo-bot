@@ -10,7 +10,7 @@ module.exports = {
       const embed = new MessageEmbed()
         .setTitle(`${e.name} Board`)
         .setImage(e.url)
-        .setColor("RANDOM");
+        .setColor(e.hex);
       return embed;
     });
     paginate(embeds, interaction);
