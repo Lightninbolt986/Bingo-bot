@@ -78,6 +78,11 @@ module.exports = {
           name: "Yellow",
           value: "yellow",
         },
+        { name: "Blue - Dark", value: "blue-dark" },
+        { name: "Light blue - Dark", value: "lightlue-dark" },
+        { name: "Orange - Dark", value: "orange-dark" },
+        { name: "Orange yellow - Dark", value: "orangeyellow-dark" },
+        { name: "Cyan - Dark", value: "cyan-dark" },
       ],
     },
     {
@@ -159,6 +164,7 @@ module.exports = {
           useGrouping: false,
         })
       );
+      if(gameBoards[board].dark) ctx.fillStyle = 'white'
       ctx.fillText(nums[0], 77, 180);
       ctx.fillText(nums[1], 77, 260);
       ctx.fillText(nums[2], 77, 340);

@@ -1,22 +1,52 @@
 {
   "blue": {
     "name": "Blue",
-    "url": "https://media.discordapp.net/attachments/815891006255923212/975241914636959774/blue2.jpg?width=518&height=547"
+    "url": "https://media.discordapp.net/attachments/815891006255923212/975241914636959774/blue2.jpg?width=518&height=547",
+    "dark": false
   },
   "lightblue": {
     "name": "Light blue",
-    "url": "https://media.discordapp.net/attachments/815891006255923212/975241913642909736/lightblue2.jpg?width=518&height=547"
+    "url": "https://media.discordapp.net/attachments/815891006255923212/975241913642909736/lightblue2.jpg?width=518&height=547",
+    "dark": false
   },
   "red": {
     "name": "Red",
-    "url": "https://media.discordapp.net/attachments/815891006255923212/975241913865232464/red2.jpg?width=518&height=547"
+    "url": "https://media.discordapp.net/attachments/815891006255923212/975241913865232464/red2.jpg?width=518&height=547",
+    "dark": false
   },
   "redorange": {
     "name": "Red-orange",
-    "url": "https://media.discordapp.net/attachments/815891006255923212/975241914154643506/redorange2.jpg?width=518&height=547"
+    "url": "https://media.discordapp.net/attachments/815891006255923212/975241914154643506/redorange2.jpg?width=518&height=547",
+    "dark": false
   },
   "yellow": {
     "name": "Yellow",
-    "url": "https://media.discordapp.net/attachments/815891006255923212/975241914427277372/yellow2.jpg?width=518&height=547"
+    "url": "https://media.discordapp.net/attachments/815891006255923212/975241914427277372/yellow2.jpg?width=518&height=547",
+    "dark": false
+  },
+  "blue-dark": {
+    "name": "Blue - Dark",
+    "url": "https://media.discordapp.net/attachments/892704135244283916/975806220361429022/yellow-invert2.jpg?width=518&height=547",
+    "dark": true
+  },
+  "lightlue-dark": {
+    "name": "Light blue - Dark",
+    "url": "https://media.discordapp.net/attachments/892704135244283916/975806220772446238/redorange-invert2.jpg?width=518&height=547",
+    "dark": true
+  },
+  "orange-dark": {
+    "name": "Orange - Dark",
+    "url": "https://media.discordapp.net/attachments/892704135244283916/975806221107994624/lightblue-invert2.jpg?width=518&height=547",
+    "dark": true
+  },
+  "orangeyellow-dark": {
+    "name": "Orange yellow - Dark",
+    "url": "https://media.discordapp.net/attachments/892704135244283916/975806221359677471/blue-invert2.jpg?width=518&height=547",
+    "dark": true
+  },
+  "cyan-dark": {
+    "name": "Cyan - Dark",
+    "url": "https://media.discordapp.net/attachments/892704135244283916/975806221724577822/red-invert2.jpg?width=518&height=547",
+    "dark": true
   }
 }
