@@ -346,4 +346,10 @@ module.exports = {
       a.every((val, index) => val === b[index])
     );
   },
+  ttsNumber: function (number) {
+    if (parseInt(number).toString().length === 1) {
+      return `Single digit ${number}.`;
+    } else
+      return `${number.toString()[0]} and ${number.toString()[1]}, ${number}.`;
+  },
 };
