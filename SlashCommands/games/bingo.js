@@ -135,7 +135,7 @@ module.exports = {
         new MessageEmbed()
           .setTitle("BINGO!")
           .setDescription(
-            "Click the button below to join the game and get a ticket. Game starts in <t:" +
+            "Click the button below to join the game and get a ticket. Game starts <t:" +
               Math.floor((Date.now() + 2 * 60 * 1000) / 1000) +
               ":R>"
           )
