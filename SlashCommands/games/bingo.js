@@ -76,31 +76,16 @@ module.exports = {
       type: "STRING",
       required: false,
       choices: [
-        {
-          name: "Blue",
-          value: "blue",
-        },
-        {
-          name: "Light blue",
-          value: "lightblue",
-        },
-        {
-          name: "Red",
-          value: "red",
-        },
-        {
-          name: "Red-orange",
-          value: "redorange",
-        },
-        {
-          name: "Yellow",
-          value: "yellow",
-        },
+        { name: "Blue", value: "blue" },
+        { name: "Light blue", value: "lightblue" },
+        { name: "Red", value: "red" },
+        { name: "Red-orange", value: "redorange" },
+        { name: "Yellow", value: "yellow" },
         { name: "Blue - Dark", value: "blue-dark" },
+        { name: "Cyan - Dark", value: "cyan-dark" },
         { name: "Light blue - Dark", value: "lightlue-dark" },
         { name: "Orange - Dark", value: "orange-dark" },
         { name: "Orange yellow - Dark", value: "orangeyellow-dark" },
-        { name: "Cyan - Dark", value: "cyan-dark" },
       ],
     },
     {
