@@ -358,7 +358,7 @@ module.exports = {
             if (games.get(interaction.channel.id).get("players").has(i.user.id))
               return true;
             else
-              return interaction.editReply({
+              return i.reply({
                 content: "You arent a part of the game!",
                 ephemeral: true,
               });
