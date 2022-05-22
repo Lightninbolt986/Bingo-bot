@@ -1,2 +1,2 @@
 web: echo "hi"
-worker: python YOURSCRIPTNAME.py 
+worker: node .
