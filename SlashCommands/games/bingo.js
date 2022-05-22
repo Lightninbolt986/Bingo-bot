@@ -25,7 +25,7 @@ const locations = {
   22: [387, 361],
   23: [387, 442],
 };
-
+const balls = require("../../data/balls.json");
 const gameBoards = require("../../data/boards.json");
 const { createCanvas, loadImage } = require("canvas");
 const {
@@ -182,7 +182,7 @@ module.exports = {
       fetchReply: true,
     });
     //2 minutes for users to read through the rules
-    const collector = msg.createMessageComponentCollector({ time: 120000 });
+    const collector = msg.createMessageComponentCollector({ time: 5000 });
     collector.on("collect", async (int) => {
       //user joining the game
       await int.deferReply({ ephemeral: true });
@@ -269,10 +269,7 @@ module.exports = {
         } else return undefined;
       });
       let finalPlayers = players
-        .filter((e) => {
-          return e;
-        })
-        .slice(0, -1)
+        .filter((e) => e)
         .join(" ");
       if (
         players.filter((e) => {
@@ -286,7 +283,6 @@ module.exports = {
               return !e;
             }).length
           } more`;
-
       interaction.followUp({
         embeds: [
           new MessageEmbed()
@@ -326,7 +322,7 @@ module.exports = {
               .reverse()
               .map((e) =>
                 new MessageButton()
-                  .setLabel(`${e}`)
+                  .setEmoji(`${balls[e]}`)
                   .setCustomId(`${e}`)
                   .setStyle("PRIMARY")
               )
