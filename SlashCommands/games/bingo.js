@@ -699,6 +699,7 @@ module.exports = {
           });
           collector.on("end", () => {
             message.edit({
+              //disable buttons
               components: message.components.map((e) => {
                 e.components = e.components.map((i) => {
                   i.disabled = true;
