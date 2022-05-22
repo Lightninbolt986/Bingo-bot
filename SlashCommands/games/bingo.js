@@ -182,7 +182,7 @@ module.exports = {
       fetchReply: true,
     });
     //2 minutes for users to read through the rules
-    const collector = msg.createMessageComponentCollector({ time: 5000 });
+    const collector = msg.createMessageComponentCollector({ time: 120000 });
     collector.on("collect", async (int) => {
       //user joining the game
       await int.deferReply({ ephemeral: true });
