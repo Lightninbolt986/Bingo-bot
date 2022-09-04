@@ -1,3 +1,3 @@
-# documatic-solo-hackathon
+# Bingo Bot
 
-My submission project for a hackathon, courtesy of [Documatic](https://documatic.com/)
+hi
